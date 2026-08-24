@@ -1,0 +1,126 @@
+CrossForge Third-Party Notices
+Generated: 2026-08-23
+See also: legal/TRADEMARKS.md for vendor trademark disclaimers.
+
+================================================================================
+CrossForge Studio — Python runtime dependencies (all three Builder apps)
+================================================================================
+
+fastapi (0.141.1)
+  Copyright (c) Sebastián Ramírez
+  Licence: MIT
+  https://github.com/tiangolo/fastapi
+
+uvicorn (0.52.1) + standard extras
+  Copyright (c) Encode OSS Ltd.
+  Licence: BSD-3-Clause
+  https://github.com/encode/uvicorn
+
+httpx (0.28.1)
+  Copyright (c) Encode OSS Ltd.
+  Licence: BSD-3-Clause
+  https://github.com/encode/httpx
+
+pydantic (2.13.4)
+  Copyright (c) Samuel Colvin and contributors
+  Licence: MIT
+  https://github.com/pydantic/pydantic
+
+cursor-sdk (1.0.27) — optional AI provider integration
+  Licence: See package metadata on PyPI
+  https://pypi.org/project/cursor-sdk/
+  Note: Only used when user selects Cursor as AI provider.
+
+Transitive Python dependencies (representative):
+  starlette, anyio, sniffio, typing-extensions, annotated-doc, click,
+  h11, httptools, uvloop, watchfiles, websockets, certifi, httpcore, idna
+
+  Retrieve full transitive list for a release build:
+    pip-licenses --format=plain-vertical --with-urls
+
+================================================================================
+CrossForge License Server — additional Python dependencies
+================================================================================
+
+python-dotenv (1.1.0)
+  Licence: BSD-3-Clause
+  https://github.com/theskumar/python-dotenv
+
+stripe (12.5.1)
+  Copyright (c) Stripe, Inc.
+  Licence: MIT
+  https://github.com/stripe/stripe-python
+
+================================================================================
+System / desktop dependencies (not bundled; installed via distro or Snap)
+================================================================================
+
+GTK 3, PyGObject (gi)
+  Licence: LGPL-2.1+
+  https://wiki.gnome.org/Projects/PyGObject
+
+Python 3
+  Licence: PSF License
+  https://www.python.org/
+
+================================================================================
+CrossForge Windows Builder — .NET / NuGet template dependencies
+================================================================================
+
+Downloaded at build time on the user's machine (not shipped in CrossForge installer):
+
+Avalonia UI (11.x)
+  Licence: MIT
+  https://github.com/AvaloniaUI/Avalonia
+
+FluentAvalonia (when used)
+  Licence: MIT
+  https://github.com/amwx/FluentAvalonia
+
+Microsoft .NET SDK / runtime
+  Licence: MIT (runtime); see Microsoft .NET licence for SDK terms
+  https://dotnet.microsoft.com/
+
+SkiaSharp, HarfBuzzSharp (Avalonia native assets)
+  Licence: MIT / BSD-style (see respective NuGet packages)
+
+Tmds.DBus (optional vendor tree in windows-pi-studio/vendor/)
+  Licence: MIT
+  https://github.com/tmds/Tmds.DBus
+
+================================================================================
+CrossForge macOS Builder — toolchain components (user-fetched)
+================================================================================
+
+Swift.org open-source toolchain
+  Licence: Apache-2.0 with Runtime Exception
+  https://swift.org/
+
+Apple SDK / Xcode components
+  Licence: Apple SDK / Xcode licence (user acceptance required)
+  https://developer.apple.com/
+
+LLVM / Clang / LLD (host packages)
+  Licence: Apache-2.0 with LLVM Exceptions
+  https://llvm.org/
+
+================================================================================
+CrossForge Android Builder — toolchain components (user-fetched)
+================================================================================
+
+Google Android SDK / command-line tools
+  Licence: Android Software Development Kit License Agreement
+  https://developer.android.com/studio/terms
+
+Gradle / Kotlin / Jetpack Compose (project templates)
+  Licences: Apache-2.0 (Gradle, Kotlin, AndroidX)
+  https://gradle.org/ https://kotlinlang.org/
+
+OpenJDK 17
+  Licence: GPLv2 with Classpath Exception (typical distro build)
+
+================================================================================
+END OF NOTICES
+
+For a machine-readable dependency export during release builds, run:
+  ./scripts/generate_notices.sh
