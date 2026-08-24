@@ -4,11 +4,11 @@ Stripe-backed subscription API for CrossForge Builder snaps and desktop installs
 
 ## Legal
 
-- Privacy: https://crossforge.studio/legal/privacy
-- Terms: https://crossforge.studio/legal/terms
+- Privacy: https://BraddazPi.github.io/crossforge-legal/legal/privacy.html
+- Terms: https://BraddazPi.github.io/crossforge-legal/legal/terms.html
 - Data handled: email, Stripe customer/subscription IDs, opaque license tokens, product SKU
-- Privacy contact: privacy@crossforge.studio
-- Billing portal: https://billing.crossforge.studio
+- Contact: braddazpi@gmail.com
+- Billing portal: https://BraddazPi.github.io/crossforge-legal/billing/index.html
 
 See `legal/PRIVACY.md` for GDPR details on Stripe integration.
 

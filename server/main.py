@@ -29,9 +29,9 @@ PRODUCTS = {
 
 STRIPE_SECRET = os.environ.get("STRIPE_SECRET_KEY", "")
 STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
-PUBLIC_BASE = os.environ.get("CROSSFORGE_PUBLIC_URL", "https://license.crossforge.studio").rstrip("/")
-LEGAL_SITE = os.environ.get("CROSSFORGE_LEGAL_SITE", "https://crossforge.studio/legal").rstrip("/")
-BILLING_SITE = os.environ.get("CROSSFORGE_BILLING_PORTAL", "https://billing.crossforge.studio").rstrip("/")
+PUBLIC_BASE = os.environ.get("CROSSFORGE_PUBLIC_URL", "https://crossforge-license.onrender.com").rstrip("/")
+LEGAL_SITE = os.environ.get("CROSSFORGE_LEGAL_SITE", "https://BraddazPi.github.io/crossforge-legal/legal").rstrip("/")
+BILLING_SITE = os.environ.get("CROSSFORGE_BILLING_PORTAL", "https://BraddazPi.github.io/crossforge-legal/billing").rstrip("/")
 
 
 class CheckoutBody(BaseModel):
@@ -142,7 +142,7 @@ def root() -> str:
 <ul>
   <li><a href="{LEGAL_SITE}/privacy.html">Privacy Policy</a></li>
   <li><a href="{LEGAL_SITE}/terms.html">Terms of Service</a></li>
-  <li><a href="{BILLING_SITE}/">Manage / cancel subscription</a></li>
+  <li><a href="{BILLING_SITE}/index.html">Manage / cancel subscription</a></li>
   <li><a href="/health">Health check</a></li>
   <li><a href="/docs">API docs</a></li>
 </ul>
@@ -151,7 +151,7 @@ def root() -> str:
 
 @app.get("/billing")
 def billing_redirect() -> RedirectResponse:
-    return RedirectResponse(url=f"{BILLING_SITE}/", status_code=302)
+    return RedirectResponse(url=f"{BILLING_SITE}/index.html", status_code=302)
 
 
 @app.get("/v1/entitlement")

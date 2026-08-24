@@ -42,6 +42,6 @@ services:
 
 # Set in Render dashboard after first deploy:
 #   CROSSFORGE_PUBLIC_URL=https://crossforge-license.onrender.com
-#   CROSSFORGE_LEGAL_SITE=https://YOURUSER.github.io/crossforge-legal/legal
-#   CROSSFORGE_BILLING_PORTAL=https://YOURUSER.github.io/crossforge-legal/billing
-#   STRIPE_PORTAL_RETURN_URL=same as billing portal
+#   CROSSFORGE_LEGAL_SITE=https://BraddazPi.github.io/crossforge-legal/legal
+#   CROSSFORGE_BILLING_PORTAL=https://BraddazPi.github.io/crossforge-legal/billing
+#   STRIPE_PORTAL_RETURN_URL=https://BraddazPi.github.io/crossforge-legal/billing/index.html
