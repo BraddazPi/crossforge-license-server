@@ -1,8 +1,8 @@
 # CrossForge Privacy Policy
 
-**Effective date:** 23 August 2026  
-**Publisher:** CrossForge  
-**Contact:** privacy@crossforge.studio
+**Effective date:** 24 August 2026  
+**Publisher:** Brad Smith, trading as CrossForge  
+**Contact:** braddazpi@gmail.com
 
 This policy describes how CrossForge collects, uses, and protects personal data
 when you use CrossForge Builder apps (Windows, macOS, Android), the CrossForge
@@ -25,7 +25,7 @@ Stripe's privacy policy: https://stripe.com/privacy
 
 ### License server
 
-Our license API (`license.crossforge.studio`) stores:
+Our license API (`crossforge-license.onrender.com`) stores:
 
 - Hashed or opaque license tokens
 - Product SKU (Windows / macOS / Android / bundle)
@@ -80,7 +80,7 @@ Snap Store terms. See https://ubuntu.com/legal/snap-store-privacy-policy
 ## Your rights
 
 EU/UK users may request access, correction, deletion, restriction, portability, and
-objection by emailing privacy@crossforge.studio. You may lodge a complaint with
+objection by emailing braddazpi@gmail.com. You may lodge a complaint with
 your supervisory authority.
 
 ## International transfers
@@ -95,11 +95,11 @@ from children.
 
 ## Changes
 
-We will post updates at https://crossforge.studio/legal/privacy and bump the
+We will post updates at https://BraddazPi.github.io/crossforge-legal/legal/privacy.html and bump the
 effective date.
 
 ## Data controller
 
-CrossForge  
-Email: privacy@crossforge.studio  
-Support: support@crossforge.studio
+Brad Smith, trading as CrossForge  
+Email: braddazpi@gmail.com  
+Support: braddazpi@gmail.com

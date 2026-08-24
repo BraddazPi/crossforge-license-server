@@ -3,7 +3,7 @@ Generated: 2026-08-23
 See also: legal/TRADEMARKS.md for vendor trademark disclaimers.
 
 ================================================================================
-CrossForge Studio — Python runtime dependencies (all three Builder apps)
+CrossForge Builder — Python runtime dependencies (all three Builder apps)
 ================================================================================
 
 fastapi (0.141.1)

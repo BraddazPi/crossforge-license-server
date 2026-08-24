@@ -1,6 +1,6 @@
 # CrossForge legal documents (static site source)
 
-Host these files at `https://crossforge.studio/legal/`:
+Host these files at `https://BraddazPi.github.io/crossforge-legal/legal/`:
 
 | Path | File |
 |------|------|
@@ -10,8 +10,8 @@ Host these files at `https://crossforge.studio/legal/`:
 | `/legal/apple-sdk` | APPLE_SDK_LINUX.md |
 | `/legal/export` | EXPORT_COMPLIANCE.md |
 
-Support page: `/support` → support@crossforge.studio
+Support page: `/support` → braddazpi@gmail.com
 
-Billing: https://billing.crossforge.studio → Stripe Customer Portal
+Billing: https://BraddazPi.github.io/crossforge-legal/billing/index.html → Stripe Customer Portal
 
 Sync from canonical pack: `~/Projects/crossforge-legal/scripts/sync_to_studios.sh`

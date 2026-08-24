@@ -40,4 +40,4 @@ All other trademarks are the property of their respective owners.
 
 ## Questions
 
-legal@crossforge.studio
+braddazpi@gmail.com

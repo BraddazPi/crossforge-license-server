@@ -45,4 +45,4 @@ requirements change, the app can switch strategies (CDN fetch, user archive,
 C/Objective-C fallback, etc.) via **Settings → Legal** or the
 `/api/compliance/*` API.
 
-Support: support@crossforge.studio
+Support: braddazpi@gmail.com

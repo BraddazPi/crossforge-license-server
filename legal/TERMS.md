@@ -1,7 +1,8 @@
 # CrossForge Terms of Service
 
-**Effective date:** 23 August 2026  
-**Contact:** legal@crossforge.studio
+**Effective date:** 24 August 2026  
+**Operator:** Brad Smith, trading as CrossForge  
+**Contact:** braddazpi@gmail.com
 
 These Terms of Service ("Terms") govern your use of CrossForge Builder
 applications, the CrossForge license server, and related services.
@@ -24,7 +25,7 @@ licences.
 
 - A **14-day free trial** may be available per product (local trial counter).
 - **Pro subscriptions** are billed recurringly via Stripe until cancelled.
-- Manage or cancel billing: https://billing.crossforge.studio (Stripe Customer Portal)
+- Manage or cancel billing: https://BraddazPi.github.io/crossforge-legal/billing/index.html (Stripe Customer Portal)
   or **Settings → Subscription** in the app when signed in.
 - Refunds follow Stripe and applicable consumer law.
 
@@ -77,7 +78,7 @@ practicable.
 
 ## 11. Contact
 
-- Legal: legal@crossforge.studio
-- Support: support@crossforge.studio
-- Privacy: privacy@crossforge.studio
-- Cancel subscription: https://billing.crossforge.studio
+- Legal: braddazpi@gmail.com
+- Support: braddazpi@gmail.com
+- Privacy: braddazpi@gmail.com
+- Cancel subscription: https://BraddazPi.github.io/crossforge-legal/billing/index.html

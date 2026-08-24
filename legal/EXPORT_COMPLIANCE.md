@@ -53,5 +53,5 @@ snap metadata including privacy policy URL and support contact (see SNAP_STORE.m
 
 ## Questions
 
-legal@crossforge.studio — general compliance  
-support@crossforge.studio — product usage
+braddazpi@gmail.com — general compliance  
+braddazpi@gmail.com — product usage
