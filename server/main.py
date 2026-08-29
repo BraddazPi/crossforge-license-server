@@ -75,8 +75,15 @@ def _issue_token() -> str:
     return f"cf_{uuid.uuid4().hex}"
 
 
+def _product_allows(row: sqlite3.Row, product: str) -> bool:
+    lic = row["product"]
+    if lic == product:
+        return True
+    return lic == "crossforge-bundle"
+
+
 def _entitlement_for_row(row: sqlite3.Row | None, product: str) -> dict:
-    if row is None:
+    if row is None or not _product_allows(row, product):
         return {
             "active": False,
             "tier": "expired",
@@ -86,9 +93,7 @@ def _entitlement_for_row(row: sqlite3.Row | None, product: str) -> dict:
         }
     status = row["status"]
     end = row["current_period_end"]
-    active = status in {"active", "trialing", "pending"}
-    if row["product"] == "crossforge-bundle":
-        active = status in {"active", "trialing"}
+    active = status in {"active", "trialing"}
     if end:
         try:
             end_dt = datetime.fromisoformat(end.replace("Z", "+00:00"))
@@ -158,10 +163,22 @@ def billing_redirect() -> RedirectResponse:
 def entitlement(token: str, product: str) -> dict:
     with _connect() as conn:
         row = conn.execute("SELECT * FROM licenses WHERE token = ?", (token,)).fetchone()
-    ent = _entitlement_for_row(row, product)
-    if row and row["product"] == "crossforge-bundle":
-        ent["active"] = _entitlement_for_row(row, product)["active"]
-    return ent
+    return _entitlement_for_row(row, product)
+
+
+@app.get("/activated", response_class=HTMLResponse)
+def activated(token: str = "") -> str:
+    tok = token.strip()
+    return f"""<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Subscription activated</title></head>
+<body style="font-family:system-ui;max-width:640px;margin:2rem auto;line-height:1.5">
+<h1>Thank you — subscription started</h1>
+<p>Copy your license token and paste it in CrossForge <strong>Account → Activate token</strong>:</p>
+<p style="background:#f4f4f4;padding:12px;border-radius:8px;word-break:break-all"><code id="tok">{tok or 'cf_…'}</code></p>
+<p><button onclick="navigator.clipboard.writeText(document.getElementById('tok').textContent)">Copy token</button></p>
+<p>Then open your studio app → <strong>Account</strong> → paste token → <strong>Activate token</strong>.</p>
+<p><a href="{BILLING_SITE}/index.html">Manage billing</a> · <a href="{LEGAL_SITE}/terms.html">Terms</a></p>
+</body></html>"""
 
 
 @app.post("/v1/activate")
@@ -242,7 +259,12 @@ async def stripe_webhook(request: Request) -> dict:
     except Exception as exc:  # noqa: BLE001
         raise HTTPException(400, str(exc)) from exc
 
-    if event["type"] in {"checkout.session.completed", "customer.subscription.updated"}:
+    if event["type"] in {
+        "checkout.session.completed",
+        "customer.subscription.updated",
+        "customer.subscription.deleted",
+        "invoice.payment_failed",
+    }:
         obj = event["data"]["object"]
         token = (obj.get("metadata") or {}).get("crossforge_token")
         sub_id = obj.get("subscription") or obj.get("id")
@@ -251,9 +273,40 @@ async def stripe_webhook(request: Request) -> dict:
         product = (obj.get("metadata") or {}).get("crossforge_product", "crossforge-bundle")
         period_end = None
         status = "active"
-        if event["type"] == "customer.subscription.updated":
+        if event["type"] == "customer.subscription.deleted":
+            status = "canceled"
+        elif event["type"] == "invoice.payment_failed":
+            status = "past_due"
+        elif event["type"] == "customer.subscription.updated":
             status = obj.get("status", "active")
-            period_end = datetime.fromtimestamp(obj["current_period_end"], UTC).isoformat()
+            if obj.get("current_period_end"):
+                period_end = datetime.fromtimestamp(obj["current_period_end"], UTC).isoformat()
+        elif event["type"] == "checkout.session.completed":
+            status = "active"
+            if sub_id and STRIPE_SECRET:
+                import stripe
+
+                stripe.api_key = STRIPE_SECRET
+                try:
+                    sub = stripe.Subscription.retrieve(sub_id)
+                    status = sub.get("status", "active")
+                    if sub.get("current_period_end"):
+                        period_end = datetime.fromtimestamp(sub["current_period_end"], UTC).isoformat()
+                except Exception:
+                    pass
+        if event["type"] == "customer.subscription.updated" and not period_end:
+            if obj.get("current_period_end"):
+                period_end = datetime.fromtimestamp(obj["current_period_end"], UTC).isoformat()
+        if not token:
+            sub_lookup = sub_id if event["type"] != "checkout.session.completed" else None
+            if sub_lookup:
+                with _connect() as conn:
+                    row = conn.execute(
+                        "SELECT token FROM licenses WHERE stripe_subscription_id = ?",
+                        (sub_lookup,),
+                    ).fetchone()
+                if row:
+                    token = row["token"]
         if token:
             with _connect() as conn:
                 conn.execute(
