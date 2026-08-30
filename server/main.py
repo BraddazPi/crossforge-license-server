@@ -132,9 +132,84 @@ app.add_middleware(
 )
 
 
+def _stripe_mode() -> str:
+    if not STRIPE_SECRET:
+        return "none"
+    if STRIPE_SECRET.startswith("sk_live_"):
+        return "live"
+    if STRIPE_SECRET.startswith("sk_test_"):
+        return "test"
+    return "unknown"
+
+
 @app.get("/health")
 def health() -> dict:
-    return {"ok": True, "stripe_configured": bool(STRIPE_SECRET)}
+    products_set = {k: bool(v) for k, v in PRODUCTS.items()}
+    stripe_ok = bool(STRIPE_SECRET)
+    webhook_ok = bool(STRIPE_WEBHOOK_SECRET)
+    mode = _stripe_mode()
+    return {
+        "ok": True,
+        "stripe_configured": stripe_ok,
+        "stripe_mode": mode,
+        "stripe_webhook_configured": webhook_ok,
+        "products_configured": products_set,
+        "simulation_mode": not stripe_ok,
+        "checkout_mode": "dev_grant" if not stripe_ok else "stripe",
+    }
+
+
+@app.get("/v1/billing/status")
+def billing_status() -> dict:
+    """Readiness check for real billing — validates Stripe prices without creating checkout."""
+    mode = _stripe_mode()
+    result: dict = {
+        "ok": True,
+        "stripe_configured": bool(STRIPE_SECRET),
+        "stripe_mode": mode,
+        "webhook_configured": bool(STRIPE_WEBHOOK_SECRET),
+        "simulation_mode": not STRIPE_SECRET,
+        "checkout_mode": "dev_grant" if not STRIPE_SECRET else "stripe",
+        "products": {},
+        "monetization_ready": False,
+        "production_ready": False,
+    }
+    if not STRIPE_SECRET:
+        for product in PRODUCTS:
+            result["products"][product] = {
+                "price_id_set": False,
+                "valid_in_stripe": False,
+                "error": "simulation_mode",
+            }
+        return result
+
+    import stripe
+
+    stripe.api_key = STRIPE_SECRET
+    for product, price_id in PRODUCTS.items():
+        entry: dict = {
+            "price_id_set": bool(price_id),
+            "valid_in_stripe": False,
+            "error": None,
+        }
+        if not price_id:
+            entry["error"] = "STRIPE_PRICE_* env var not set"
+        else:
+            try:
+                stripe.Price.retrieve(price_id)
+                entry["valid_in_stripe"] = True
+            except Exception as exc:  # noqa: BLE001
+                entry["error"] = str(exc)[:240]
+        result["products"][product] = entry
+
+    all_prices_valid = all(p.get("valid_in_stripe") for p in result["products"].values())
+    result["monetization_ready"] = (
+        mode in {"live", "test"}
+        and result["webhook_configured"]
+        and all_prices_valid
+    )
+    result["production_ready"] = result["monetization_ready"] and mode == "live"
+    return result
 
 
 @app.get("/", response_class=HTMLResponse)
